@@ -1,15 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import IconHamburger from "../assets/shared/mobile/icon-hamburger.svg";
+import FeedbackRequestCard from "../components/FeedbackRequestCard";
 import IconArrowDown from "../components/icons/IconArrowDown";
-import IconComments from "../components/icons/IconComments";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { upvoteRequest } from "../slice";
+import { useAppSelector } from "../hooks";
 
 export default function Suggestions() {
   const navigate = useNavigate();
   const feedbacks = useAppSelector((state) => state.feedbacks);
-  const dispatch = useAppDispatch();
 
   return (
     <div className="min-h-full flex flex-col">
@@ -53,58 +51,9 @@ export default function Suggestions() {
                 return (a.comments?.length ?? 0) - (b.comments?.length ?? 0);
             }
           })
-          .map((product) => {
-            return (
-              <div
-                key={product.id}
-                className="bg-white rounded-lg p-6 text-sm"
-                onClick={() => navigate(`/feedbacks/${product.id}`)}
-              >
-                <div>
-                  <div className="text-[#3A4374] font-bold">
-                    {product.title}
-                  </div>
-                  <div className="text-[#647196] mt-2">
-                    {product.description}
-                  </div>
-                </div>
-                <div className="mt-2 flex">
-                  <div className="rounded-lg px-4 h-8 bg-[#F2F4FF] text-[#4661E6] font-bold flex items-center justify-center">
-                    {product.category}
-                  </div>
-                </div>
-                <div className="mt-4 flex justify-between items-center">
-                  <button
-                    type="button"
-                    className={[
-                      "rounded-lg px-4 h-8 flex items-center font-bold",
-                      feedbacks.upvotedRequestIds.includes(product.id)
-                        ? "bg-[#4661E6] text-white"
-                        : "bg-[#F2F4FF] text-[#3A4374]",
-                    ].join(" ")}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(upvoteRequest(product.id));
-                    }}
-                  >
-                    <IconArrowDown
-                      className={[
-                        "transform rotate-180 mr-2",
-                        feedbacks.upvotedRequestIds.includes(product.id)
-                          ? "text-white"
-                          : "",
-                      ].join(" ")}
-                    />
-                    {product.upvotes}
-                  </button>
-                  <div className="text-[#3A4374] font-bold flex items-center">
-                    <IconComments className="mr-2" />
-                    {product.comments?.length ?? 0}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          .map((product) => (
+            <FeedbackRequestCard key={product.id} product={product} />
+          ))}
       </div>
     </div>
   );

@@ -16,6 +16,7 @@ ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Suggestions />} />
           <Route path="feedbacks">
             <Route index element={<Suggestions />} />
             <Route path=":feedbackId">
