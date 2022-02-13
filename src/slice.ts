@@ -24,6 +24,17 @@ export interface Comment {
     replies?: Reply[]
 }
 
+export interface FormAddComment {
+    productRequest: ProductRequest
+    comment: Comment
+}
+
+export interface FormAddReply {
+    productRequest: ProductRequest
+    comment: Comment
+    reply: Reply
+}
+
 export interface Reply {
     content: string
     replyingTo: string
@@ -59,15 +70,15 @@ export const feedbackSlice = createSlice({
         upvoteRequest: (state, action: PayloadAction<RequestId>) => {
             state.productRequests = state.productRequests
                 .map(product => {
-                    if (product.id === action.payload && state.upvotedRequestIds.includes(action.payload)) {
-                        // user mau downvote
-                        return { ...product, upvotes: product.upvotes - 1 }
-                    } else if (product.id === action.payload && !state.upvotedRequestIds.includes(action.payload)) {
-                        // user mau upvote
-                        return { ...product, upvotes: product.upvotes + 1 }
-                    } else {
-                        return product
+                    if (product.id === action.payload) {
+                        if (state.upvotedRequestIds.includes(action.payload)) {
+                            product.upvotes = product.upvotes - 1
+                        } else {
+                            product.upvotes = product.upvotes + 1
+                        }
                     }
+
+                    return product
                 })
 
             if (state.upvotedRequestIds.includes(action.payload)) {
@@ -75,10 +86,46 @@ export const feedbackSlice = createSlice({
             } else {
                 state.upvotedRequestIds = state.upvotedRequestIds.concat([action.payload])
             }
+        },
+        addComment: (state, action: PayloadAction<FormAddComment>) => {
+            state.productRequests = state.productRequests
+                .map(product => {
+                    if (product.id === action.payload.productRequest.id) {
+                        action.payload.comment.id = product.comments?.length ?? 0
+
+                        if (product.comments === undefined) {
+                            product.comments = []
+                        }
+
+                        product.comments?.push(action.payload.comment)
+                    }
+
+                    return product
+                })
+        },
+        addReply: (state, action: PayloadAction<FormAddReply>) => {
+            state.productRequests = state.productRequests
+                .map(product => {
+                    if (product.id === action.payload.productRequest.id) {
+                        product.comments = product.comments?.map(comment => {
+                            if (comment.id === action.payload.comment.id) {
+                                if (comment.replies === undefined) {
+                                    comment.replies = []
+                                }
+
+                                comment.replies?.push(action.payload.reply)
+                            }
+
+                            return comment
+                        })
+                    }
+
+                    return product
+                })
         }
     },
 })
 
-export const { upvoteRequest } = feedbackSlice.actions
+export const { upvoteRequest, addComment, addReply } = feedbackSlice.actions
 
 export default feedbackSlice.reducer
