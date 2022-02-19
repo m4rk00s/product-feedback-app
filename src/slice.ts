@@ -3,11 +3,9 @@ import initialData from './data.json'
 
 export type RequestId = number;
 
-export type Category = "UI" | "UX" | "Enhancement" | "Bug" | "Feature"
+export type Category = "ui" | "ux" | "enhancement" | "bug" | "feature"
 
-export type Status = "Suggestion" | "Planned" | "In-Progress" | "Live"
-
-export type SortBy = "Most Upvotes" | "Least Upvotes" | "Most Comments" | "Least Comments"
+export type Status = "suggestion" | "planned" | "in-progress" | "live"
 
 export interface ProductRequest {
     id: number
@@ -67,16 +65,14 @@ export interface AppState {
     currentUser: User
     categories: Category[]
     statuses: Status[]
-    sortBy: SortBy
     upvotedRequestIds: RequestId[]
     productRequests: ProductRequest[]
 }
 
 const initialState: AppState = {
     currentUser: initialData.currentUser,
-    categories: ["UI", "UX", "Enhancement", "Bug", "Feature"],
-    statuses: ["Suggestion", "Planned", "In-Progress", "Live"],
-    sortBy: "Most Upvotes",
+    categories: ["ui", "ux", "enhancement", "bug", "feature"],
+    statuses: ["suggestion", "planned", "in-progress", "live"],
     productRequests: initialData.productRequests as ProductRequest[],
     upvotedRequestIds: []
 }
@@ -108,7 +104,7 @@ export const feedbackSlice = createSlice({
                 title: action.payload.title,
                 category: action.payload.category,
                 upvotes: 0,
-                status: "Suggestion",
+                status: "suggestion",
                 description: action.payload.detail,
                 comments: []
             });
