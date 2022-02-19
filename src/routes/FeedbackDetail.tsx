@@ -5,7 +5,7 @@ import IconArrowDown from "../components/icons/IconArrowDown";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import NotFound from "./NotFound";
 import CommentSection from "../components/CommentSection";
-import { addComment, addReply, Comment } from "../slice";
+import { addComment, addReply } from "../slice";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 
 type Params = {
@@ -30,9 +30,9 @@ export default function FeedbackDetail() {
     return (
       <div className="bg-[#F7F8FD] min-h-full p-6">
         {/* header */}
-        <div className="flex justify-between">
+        <div className="flex justify-between h-10">
           <button
-            className="flex items-center gap-4"
+            className="flex items-center gap-4 font-bold text-[#647196] text-sm"
             onClick={() => navigate(-1)}
           >
             <IconArrowDown className="transform rotate-90" /> Go back
@@ -40,6 +40,7 @@ export default function FeedbackDetail() {
           <button
             type="button"
             className="bg-[#4661E6] text-white rounded-lg h-10 px-4"
+            onClick={() => navigate(`/feedbacks/${feedbackDetail.id}/edit`)}
           >
             Edit Feedback
           </button>

@@ -3,7 +3,9 @@ import initialData from './data.json'
 
 export type RequestId = number;
 
-export type Category = "All" | "UI" | "UX" | "Enhancement" | "Bug" | "Feature"
+export type Category = "UI" | "UX" | "Enhancement" | "Bug" | "Feature"
+
+export type Status = "Suggestion" | "Planned" | "In-Progress" | "Live"
 
 export type SortBy = "Most Upvotes" | "Least Upvotes" | "Most Comments" | "Least Comments"
 
@@ -12,7 +14,7 @@ export interface ProductRequest {
     title: string
     category: Category
     upvotes: number
-    status: string
+    status: Status
     description: string
     comments?: Comment[]
 }
@@ -35,6 +37,20 @@ export interface FormAddReply {
     reply: Reply
 }
 
+export interface FormCreateNewFeedback {
+    title: string,
+    category: Category,
+    detail: string
+}
+
+export interface FormEditFeedback {
+    feedbackId: number,
+    title: string,
+    category: Category,
+    status: Status,
+    detail: string
+}
+
 export interface Reply {
     content: string
     replyingTo: string
@@ -50,6 +66,7 @@ export interface User {
 export interface AppState {
     currentUser: User
     categories: Category[]
+    statuses: Status[]
     sortBy: SortBy
     upvotedRequestIds: RequestId[]
     productRequests: ProductRequest[]
@@ -57,7 +74,8 @@ export interface AppState {
 
 const initialState: AppState = {
     currentUser: initialData.currentUser,
-    categories: ["All", "UI", "UX", "Enhancement", "Bug", "Feature"],
+    categories: ["UI", "UX", "Enhancement", "Bug", "Feature"],
+    statuses: ["Suggestion", "Planned", "In-Progress", "Live"],
     sortBy: "Most Upvotes",
     productRequests: initialData.productRequests as ProductRequest[],
     upvotedRequestIds: []
@@ -67,6 +85,34 @@ export const feedbackSlice = createSlice({
     name: 'feedbacks',
     initialState: (initialState as AppState),
     reducers: {
+        removeFeedback: (state, action: PayloadAction<RequestId>) => {
+            state.productRequests = state.productRequests
+                .filter(p => p.id !== action.payload)
+        },
+        editFeedback: (state, action: PayloadAction<FormEditFeedback>) => {
+            state.productRequests = state.productRequests
+                .map(product => {
+                    if (product.id === action.payload.feedbackId) {
+                        product.title = action.payload.title
+                        product.category = action.payload.category
+                        product.status = action.payload.status
+                        product.description = action.payload.detail
+                    }
+
+                    return product
+                })
+        },
+        createNewFeedback: (state, action: PayloadAction<FormCreateNewFeedback>) => {
+            state.productRequests.push({
+                id: state.productRequests.length + 1,
+                title: action.payload.title,
+                category: action.payload.category,
+                upvotes: 0,
+                status: "Suggestion",
+                description: action.payload.detail,
+                comments: []
+            });
+        },
         upvoteRequest: (state, action: PayloadAction<RequestId>) => {
             state.productRequests = state.productRequests
                 .map(product => {
@@ -126,6 +172,6 @@ export const feedbackSlice = createSlice({
     },
 })
 
-export const { upvoteRequest, addComment, addReply } = feedbackSlice.actions
+export const { removeFeedback, editFeedback, createNewFeedback, upvoteRequest, addComment, addReply } = feedbackSlice.actions
 
 export default feedbackSlice.reducer
