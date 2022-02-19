@@ -36,7 +36,7 @@ export default function NewFeedback() {
             initialValues={
               {
                 title: "",
-                category: "Feature",
+                category: "feature",
                 detail: "",
               } as FormCreateNewFeedback
             }
