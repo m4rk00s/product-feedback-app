@@ -64,15 +64,39 @@ export interface User {
 export interface AppState {
     currentUser: User
     categories: Category[]
-    statuses: Status[]
+    statuses: StatusInfo[]
     upvotedRequestIds: RequestId[]
     productRequests: ProductRequest[]
+}
+
+interface StatusInfo {
+    status: Status,
+    accentColor: string,
+    description: string
 }
 
 const initialState: AppState = {
     currentUser: initialData.currentUser,
     categories: ["ui", "ux", "enhancement", "bug", "feature"],
-    statuses: ["suggestion", "planned", "in-progress", "live"],
+    statuses: [{
+        status: "suggestion",
+        accentColor: "",
+        description: ""
+    }, {
+        status: "planned",
+        accentColor: "#F49F85",
+        description: "Ideas prioritized for research"
+    },
+    {
+        status: "in-progress",
+        accentColor: "#AD1FEA",
+        description: "Currently being developed"
+    },
+    {
+        status: "live",
+        accentColor: "#62BCFA",
+        description: "Released features"
+    }],
     productRequests: initialData.productRequests as ProductRequest[],
     upvotedRequestIds: []
 }

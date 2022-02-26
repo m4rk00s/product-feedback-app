@@ -57,90 +57,87 @@ export default function FeedbackDetail() {
                   .filter((c) => c !== undefined).length ?? 0)}{" "}
               Comments
             </div>
-            {feedbackDetail.comments?.length ?? 0 > 0 ? (
-              <div className="mt-6">
-                {/* comment */}
-                {feedbackDetail.comments?.map((comment) => {
-                  return (
-                    <div
-                      className="border-b-2 last:border-b-0 pb-6 mt-6 text-sm"
-                      key={comment.id}
-                    >
-                      <CommentSection
-                        content={comment.content}
-                        user={comment.user}
-                        onSubmitHandler={(values, { setSubmitting }) => {
-                          return new Promise((resolve, _) => {
-                            setTimeout(() => {
-                              dispatch(
-                                addReply({
-                                  comment: comment,
-                                  productRequest: feedbackDetail,
-                                  reply: {
-                                    content: values.content,
-                                    user: feedbacks.currentUser,
-                                    replyingTo: comment.user.username,
-                                  },
-                                })
-                              );
-                              console.log("test");
-                              setSubmitting(false);
-                              resolve("done");
-                            }, 400);
-                          });
-                        }}
-                      />
+            {feedbackDetail.comments?.length ??
+              (0 > 0 && (
+                <div className="mt-6">
+                  {/* comment */}
+                  {feedbackDetail.comments?.map((comment) => {
+                    return (
+                      <div
+                        className="border-b-2 last:border-b-0 pb-6 mt-6 text-sm"
+                        key={comment.id}
+                      >
+                        <CommentSection
+                          content={comment.content}
+                          user={comment.user}
+                          onSubmitHandler={(values, { setSubmitting }) => {
+                            return new Promise((resolve, _) => {
+                              setTimeout(() => {
+                                dispatch(
+                                  addReply({
+                                    comment: comment,
+                                    productRequest: feedbackDetail,
+                                    reply: {
+                                      content: values.content,
+                                      user: feedbacks.currentUser,
+                                      replyingTo: comment.user.username,
+                                    },
+                                  })
+                                );
+                                console.log("test");
+                                setSubmitting(false);
+                                resolve("done");
+                              }, 400);
+                            });
+                          }}
+                        />
 
-                      {/* replies */}
-                      {(comment.replies?.length ?? 0) > 0 ? (
-                        <div className="mt-6 flex flex-col gap-6 pl-6 border-l-2">
-                          {comment.replies?.map((reply, index) => {
-                            return (
-                              <CommentSection
-                                key={index}
-                                content={
-                                  <>
-                                    <span className="text-[#AD1FEA] font-bold">{`@${reply.replyingTo} `}</span>
-                                    {reply.content}
-                                  </>
-                                }
-                                user={reply.user}
-                                onSubmitHandler={(
-                                  values,
-                                  { setSubmitting }
-                                ) => {
-                                  return new Promise((resolve, _) => {
-                                    setTimeout(() => {
-                                      dispatch(
-                                        addReply({
-                                          comment: comment,
-                                          productRequest: feedbackDetail,
-                                          reply: {
-                                            content: values.content,
-                                            user: feedbacks.currentUser,
-                                            replyingTo: reply.user.username,
-                                          },
-                                        })
-                                      );
-                                      setSubmitting(false);
-                                      resolve("done");
-                                    }, 400);
-                                  });
-                                }}
-                              />
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <></>
-            )}
+                        {/* replies */}
+                        {(comment.replies?.length ?? 0) > 0 && (
+                          <div className="mt-6 flex flex-col gap-6 pl-6 border-l-2">
+                            {comment.replies?.map((reply, index) => {
+                              return (
+                                <CommentSection
+                                  key={index}
+                                  content={
+                                    <>
+                                      <span className="text-[#AD1FEA] font-bold">{`@${reply.replyingTo} `}</span>
+                                      {reply.content}
+                                    </>
+                                  }
+                                  user={reply.user}
+                                  onSubmitHandler={(
+                                    values,
+                                    { setSubmitting }
+                                  ) => {
+                                    return new Promise((resolve, _) => {
+                                      setTimeout(() => {
+                                        dispatch(
+                                          addReply({
+                                            comment: comment,
+                                            productRequest: feedbackDetail,
+                                            reply: {
+                                              content: values.content,
+                                              user: feedbacks.currentUser,
+                                              replyingTo: reply.user.username,
+                                            },
+                                          })
+                                        );
+                                        setSubmitting(false);
+                                        resolve("done");
+                                      }, 400);
+                                    });
+                                  }}
+                                />
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
           </div>
 
           <div className="bg-white mt-6 p-6 rounded-lg">

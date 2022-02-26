@@ -84,7 +84,7 @@ export default function CommentSection(props: Props) {
         </div>
       </div>
       <div className="mt-6">{props.content}</div>
-      {showAddReplyForm ? (
+      {showAddReplyForm && (
         <div className="flex flex-col items-end">
           <Formik
             initialValues={
@@ -124,8 +124,6 @@ export default function CommentSection(props: Props) {
             )}
           </Formik>
         </div>
-      ) : (
-        <></>
       )}
     </div>
   );
