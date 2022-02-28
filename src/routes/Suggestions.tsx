@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import IconHamburger from "../assets/shared/mobile/icon-hamburger.svg";
 import IconClose from "../assets/shared/mobile/icon-close.svg";
 import SvgIllustrationEmpty from "../assets/suggestions/illustration-empty.svg";
+import SvgSuggestions from "../assets/suggestions/icon-suggestions.svg";
 import Drawer from "../components/Drawer";
 import FeedbackRequestCard from "../components/FeedbackRequestCard";
 import { useAppSelector } from "../hooks";
@@ -48,8 +49,12 @@ export default function Suggestions() {
         {/* title */}
         <div className="md:items-end md:pb-6 md:h-full md:rounded-lg flex items-center justify-between h-[4.5rem] px-6 bg-fancy">
           <div>
-            <div className="text-white font-bold">Frontend Mentor</div>
-            <div className="text-white text-sm opacity-75">Feedback Board</div>
+            <div className="md:text-xl text-white font-bold">
+              Frontend Mentor
+            </div>
+            <div className="md:text-base text-white text-sm opacity-75">
+              Feedback Board
+            </div>
           </div>
           <div className="md:hidden flex">
             <button
@@ -241,7 +246,15 @@ export default function Suggestions() {
       <div className="relative flex flex-col flex-1">
         {/* sort and add feedback */}
         <div className="md:rounded-lg md:h-20 bg-[#373F68] text-white flex items-center justify-between py-2 px-6">
-          <div className="flex items-baseline text-sm">
+          <img
+            className="md:block md:mr-4 hidden"
+            src={SvgSuggestions}
+            alt=""
+          />
+          <div className="md:block md:mr-8 text-lg font-bold hidden">
+            6 Suggestion
+          </div>
+          <div className="md:flex-1 flex items-baseline text-sm">
             Sort by :{" "}
             {
               <select
@@ -292,7 +305,7 @@ export default function Suggestions() {
               <div className="mt-12 text-[#3A4374] font-bold text-lg">
                 There is no feedback yet.
               </div>
-              <div className="text-center text-[#647196] text-sm mt-4">
+              <div className="max-w-sm text-center text-[#647196] text-sm mt-4">
                 Got a suggestion? Found a bug that needs to be squashed? We love
                 hearing about new ideas to improve our app.
               </div>

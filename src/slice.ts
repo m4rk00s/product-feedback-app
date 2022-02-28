@@ -69,7 +69,7 @@ export interface AppState {
     productRequests: ProductRequest[]
 }
 
-interface StatusInfo {
+export interface StatusInfo {
     status: Status,
     accentColor: string,
     description: string
