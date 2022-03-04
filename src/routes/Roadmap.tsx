@@ -81,7 +81,7 @@ export default function Roadmap() {
   return (
     <div className="bg-[#F7F8FD]">
       <div className="lg:max-w-6xl lg:mx-auto md:py-14 md:px-10 relative flex flex-col min-h-full">
-        <div className="lg:static md:rounded-lg sticky top-0 flex items-center justify-between p-6 bg-[#373F68] text-white">
+        <div className="md:rounded-lg z-10 flex items-center justify-between p-6 bg-[#373F68] text-white">
           <div className="flex flex-col">
             <button
               type="button"

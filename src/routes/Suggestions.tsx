@@ -44,7 +44,7 @@ export default function Suggestions() {
 
   return (
     <div className="bg-[#F7F8FD] lg:min-h-full">
-      <div className="lg:min-h-screen lg:max-w-6xl lg:gap-8 lg:mx-auto lg:flex-row md:p-10 md:gap-10 relative min-h-full flex flex-col">
+      <div className="lg:max-w-6xl lg:gap-8 lg:mx-auto lg:flex-row md:min-h-screen md:p-10 md:gap-10 relative min-h-full flex flex-col">
         {/* header */}
         <div className="lg:w-56 lg:gap-6 lg:grid-cols-1 md:grid md:grid-cols-3 md:gap-[0.625rem] md:h-48 md:static z-20 sticky top-0">
           {/* title */}
