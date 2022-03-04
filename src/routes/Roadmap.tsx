@@ -79,109 +79,117 @@ export default function Roadmap() {
   }
 
   return (
-    <div className="md:py-14 md:px-10 relative flex flex-col bg-[#F7F8FD] min-h-full">
-      <div className="md:rounded-lg sticky top-0 flex items-center justify-between p-6 bg-[#373F68] text-white">
-        <div className="flex flex-col">
+    <div className="bg-[#F7F8FD]">
+      <div className="lg:max-w-6xl lg:mx-auto md:py-14 md:px-10 relative flex flex-col min-h-full">
+        <div className="lg:static md:rounded-lg sticky top-0 flex items-center justify-between p-6 bg-[#373F68] text-white">
+          <div className="flex flex-col">
+            <button
+              type="button"
+              className="flex items-center gap-4 font-bold text-white text-sm"
+              onClick={() => navigate(-1)}
+            >
+              <IconArrowDown className="transform rotate-90 text-[#CDD2EE]" />{" "}
+              Go back
+            </button>
+            <div className="text-lg font-bold">Roadmap</div>
+          </div>
           <button
             type="button"
-            className="flex items-center gap-4 font-bold text-white text-sm"
-            onClick={() => navigate(-1)}
+            className="bg-[#AD1FEA] rounded-lg h-10 px-4 text-white text-sm font-bold"
+            onClick={() => navigate("/feedbacks/new")}
           >
-            <IconArrowDown className="transform rotate-90 text-[#CDD2EE]" /> Go
-            back
+            + Add Feedback
           </button>
-          <div className="text-lg font-bold">Roadmap</div>
         </div>
-        <button
-          type="button"
-          className="bg-[#AD1FEA] rounded-lg h-10 px-4 text-white text-sm font-bold"
-          onClick={() => navigate("/feedbacks/new")}
-        >
-          + Add Feedback
-        </button>
-      </div>
-      <div className="md:hidden">
-        <div className="grid grid-cols-3">
+        <div className="md:hidden">
+          <div className="grid grid-cols-3">
+            {feedbacks.statuses
+              .filter((stat) => stat.status !== "suggestion")
+              .map((stat) => {
+                return (
+                  <button
+                    type="button"
+                    key={stat.status}
+                    className={
+                      "py-5 flex items-centers justify-center font-bold text-[#3A4374] " +
+                      (selectedStatus === stat.status
+                        ? "border-b-4 " +
+                          ((stat.status === "planned"
+                            ? "border-[#F49F85]"
+                            : "") +
+                            (stat.status === "in-progress"
+                              ? "border-[#AD1FEA]"
+                              : "") +
+                            (stat.status === "live" ? "border-[#62BCFA]" : ""))
+                        : "border-b-2 mix-blend-normal text-opacity-40 ")
+                    }
+                    onClick={() => setSelectedStatus(stat.status)}
+                  >
+                    {`${uppercaseWords(stat.status)} (${
+                      feedbacks.productRequests.filter(
+                        (p) => p.status === stat.status
+                      ).length
+                    })`}
+                  </button>
+                );
+              })}
+          </div>
+          <div className="p-6">
+            <div className="text-[#3A4374]">
+              <div className="font-bold">
+                {uppercaseWords(selectedStatus)} (
+                {filteredProductRequests.length})
+              </div>
+              <div>
+                {
+                  feedbacks.statuses.find(
+                    (stat) => stat.status === selectedStatus
+                  )?.description
+                }
+              </div>
+            </div>
+
+            {/* list of cards */}
+            <div className="flex flex-col gap-4 mt-6">
+              {filteredProductRequests.map((p) =>
+                renderRequestCard(
+                  p,
+                  feedbacks.statuses.find(
+                    (stat) => stat.status === selectedStatus
+                  ) ?? {
+                    accentColor: "",
+                    description: "",
+                    status: "suggestion",
+                  }
+                )
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="md:flex gap-[0.625rem] mt-8 hidden">
           {feedbacks.statuses
             .filter((stat) => stat.status !== "suggestion")
             .map((stat) => {
               return (
-                <button
-                  type="button"
-                  key={stat.status}
-                  className={
-                    "py-5 flex items-centers justify-center font-bold text-[#3A4374] " +
-                    (selectedStatus === stat.status
-                      ? "border-b-4 " +
-                        ((stat.status === "planned" ? "border-[#F49F85]" : "") +
-                          (stat.status === "in-progress"
-                            ? "border-[#AD1FEA]"
-                            : "") +
-                          (stat.status === "live" ? "border-[#62BCFA]" : ""))
-                      : "border-b-2 mix-blend-normal text-opacity-40 ")
-                  }
-                  onClick={() => setSelectedStatus(stat.status)}
-                >
-                  {`${uppercaseWords(stat.status)} (${
-                    feedbacks.productRequests.filter(
-                      (p) => p.status === stat.status
-                    ).length
-                  })`}
-                </button>
+                <div key={stat.status} className="flex-1">
+                  <div className="text-[#3A4374]">
+                    <div className="font-bold">
+                      {uppercaseWords(stat.status)} (
+                      {filteredProductRequests.length})
+                    </div>
+                    <div>{stat.description}</div>
+                  </div>
+
+                  {/* list of cards */}
+                  <div className="flex flex-col gap-4 mt-6">
+                    {feedbacks.productRequests
+                      .filter((f) => f.status === stat.status)
+                      .map((product) => renderRequestCard(product, stat))}
+                  </div>
+                </div>
               );
             })}
         </div>
-        <div className="p-6">
-          <div className="text-[#3A4374]">
-            <div className="font-bold">
-              {uppercaseWords(selectedStatus)} ({filteredProductRequests.length}
-              )
-            </div>
-            <div>
-              {
-                feedbacks.statuses.find(
-                  (stat) => stat.status === selectedStatus
-                )?.description
-              }
-            </div>
-          </div>
-
-          {/* list of cards */}
-          <div className="flex flex-col gap-4 mt-6">
-            {filteredProductRequests.map((p) =>
-              renderRequestCard(
-                p,
-                feedbacks.statuses.find(
-                  (stat) => stat.status === selectedStatus
-                ) ?? { accentColor: "", description: "", status: "suggestion" }
-              )
-            )}
-          </div>
-        </div>
-      </div>
-      <div className="md:flex gap-[0.625rem] mt-8 hidden">
-        {feedbacks.statuses
-          .filter((stat) => stat.status !== "suggestion")
-          .map((stat) => {
-            return (
-              <div key={stat.status} className="flex-1">
-                <div className="text-[#3A4374]">
-                  <div className="font-bold">
-                    {uppercaseWords(stat.status)} (
-                    {filteredProductRequests.length})
-                  </div>
-                  <div>{stat.description}</div>
-                </div>
-
-                {/* list of cards */}
-                <div className="flex flex-col gap-4 mt-6">
-                  {feedbacks.productRequests
-                    .filter((f) => f.status === stat.status)
-                    .map((product) => renderRequestCard(product, stat))}
-                </div>
-              </div>
-            );
-          })}
       </div>
     </div>
   );
