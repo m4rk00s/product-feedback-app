@@ -79,7 +79,7 @@ export default function Roadmap() {
   }
 
   return (
-    <div className="bg-[#F7F8FD]">
+    <div className="bg-[#F7F8FD] min-h-full">
       <div className="lg:max-w-6xl lg:mx-auto md:py-14 md:px-10 relative flex flex-col min-h-full">
         <div className="md:rounded-lg z-10 flex items-center justify-between p-6 bg-[#373F68] text-white">
           <div className="flex flex-col">

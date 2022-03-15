@@ -28,7 +28,7 @@ export default function FeedbackDetail() {
 
   if (feedbackDetail !== undefined) {
     return (
-      <div className="bg-[#F7F8FD]">
+      <div className="bg-[#F7F8FD] min-h-full">
         <div className="lg:max-w-3xl lg:mx-auto md:py-14 md:px-10 min-h-full p-6">
           {/* header */}
           <div className="flex justify-between h-10">

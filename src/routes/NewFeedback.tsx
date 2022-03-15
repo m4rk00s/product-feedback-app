@@ -12,7 +12,7 @@ export default function NewFeedback() {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="bg-[#F7F8FD]">
+    <div className="bg-[#F7F8FD] min-h-full">
       <div className="md:p-14 min-h-full p-6">
         <div className="max-w-lg mx-auto">
           <div className="flex justify-between h-10">

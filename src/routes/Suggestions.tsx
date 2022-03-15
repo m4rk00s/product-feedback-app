@@ -263,7 +263,7 @@ export default function Suggestions() {
               alt=""
             />
             <div className="md:block md:mr-8 text-lg font-bold hidden">
-              6 Suggestion
+              {filteredProducts.length} Suggestion
             </div>
             <div className="md:flex-1 flex items-baseline text-sm">
               Sort by :{" "}

@@ -41,7 +41,7 @@ export default function FeedbackRequestCard(props: Props) {
         <button
           type="button"
           className={[
-            "md:flex-col md:h-auto md:gap-2 md:p-2 md:justify-center rounded-lg px-4 h-8 flex items-center font-bold",
+            "md:flex-col md:h-auto md:gap-2 md:p-3 md:justify-center md:w-10 w-[4.5rem] flex rounded-lg px-4 h-8 flex items-center font-bold",
             feedbacks.upvotedRequestIds.includes(props.product.id)
               ? "bg-[#4661E6] text-white"
               : "bg-[#F2F4FF] text-[#3A4374]",
@@ -59,7 +59,7 @@ export default function FeedbackRequestCard(props: Props) {
                 : "",
             ].join(" ")}
           />
-          {props.product.upvotes}
+          <span className="flex-1">{props.product.upvotes}</span>
         </button>
       </div>
 
