@@ -175,7 +175,12 @@ export default function Roadmap() {
                   <div className="text-[#3A4374]">
                     <div className="font-bold">
                       {uppercaseWords(stat.status)} (
-                      {filteredProductRequests.length})
+                      {
+                        feedbacks.productRequests.filter(
+                          (p) => p.status === stat.status
+                        ).length
+                      }
+                      )
                     </div>
                     <div>{stat.description}</div>
                   </div>
